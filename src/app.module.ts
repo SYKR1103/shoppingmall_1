@@ -4,7 +4,9 @@ import { AppService } from './app.service';
 import { ProductModule } from './product/product.module';
 import { DblistModule } from './dblist/dblist.module';
 import { ConfigModule } from '@nestjs/config/dist';
-import Joi from '@hapi/joi';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import * as Joi from '@hapi/joi';
 
 @Module({
   imports: [ProductModule, DblistModule, ConfigModule.forRoot({
@@ -14,9 +16,11 @@ import Joi from '@hapi/joi';
       POSTGRES_USER : Joi.string().required(),
       POSTGRES_PASSWORD : Joi.string().required(),
       POSTGRES_DB : Joi.string().required(),
+      JWT_ACCESS_TOKEN_SECRET: Joi.string().required(),
+      JWT_ACCESS_TOKEN_EXPIRATION_TIME: Joi.string().required(),
     })
 
-  })],
+  }), UserModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
